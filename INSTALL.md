@@ -18,13 +18,15 @@ Common: see [Verify your install](#verify-your-install) once finished.
 
 ## Path A prerequisites
 
-You need: **Python 3.10+**, **`gfortran`**, **GNU `make`**.
+You need: **Python 3.10+**, **`gfortran`**, **GNU `make`**, and
+**HDF5 with Fortran bindings** — the numerical kernel writes HDF5 snapshot
+files, so it links against `libhdf5_fortran` at build time.
 
 ### macOS (Homebrew)
 
 ```bash
-brew install python@3.12 gcc make
-# 'gcc' includes gfortran on macOS via Homebrew.
+brew install python@3.12 gcc make hdf5
+# 'gcc' includes gfortran on macOS via Homebrew; 'hdf5' ships the Fortran libs.
 ```
 
 If `gfortran` still isn't found after `brew install gcc`, run
@@ -34,19 +36,19 @@ If `gfortran` still isn't found after `brew install gcc`, run
 
 ```bash
 sudo apt update
-sudo apt install -y python3.12 python3.12-venv python3-pip gfortran build-essential
+sudo apt install -y python3.12 python3.12-venv python3-pip gfortran build-essential libhdf5-dev
 ```
 
 ### Fedora / RHEL
 
 ```bash
-sudo dnf install -y python3.12 python3-pip gcc-gfortran make
+sudo dnf install -y python3.12 python3-pip gcc-gfortran make hdf5-devel
 ```
 
 ### Arch / Manjaro
 
 ```bash
-sudo pacman -S python gcc-fortran make
+sudo pacman -S python gcc-fortran make hdf5
 ```
 
 ### Windows
@@ -68,7 +70,7 @@ You need everything from Path A, plus: **Docker Desktop**, **Java 21**,
 
 ```bash
 # Add the Python wrapper prereqs (skip if you already did Path A)
-brew install python@3.12 gcc make
+brew install python@3.12 gcc make hdf5
 
 # Java 21
 brew install openjdk@21
@@ -90,7 +92,7 @@ open -a Docker          # first launch — accept the license, wait for the daem
 
 ```bash
 # Python wrapper prereqs (from Path A)
-sudo apt install -y python3.12 python3.12-venv gfortran build-essential
+sudo apt install -y python3.12 python3.12-venv gfortran build-essential libhdf5-dev
 
 # Java 21 (Temurin via Adoptium repo)
 sudo apt install -y wget gnupg
@@ -115,7 +117,7 @@ newgrp docker          # or log out + log back in
 ### Fedora / RHEL
 
 ```bash
-sudo dnf install -y python3.12 gcc-gfortran make \
+sudo dnf install -y python3.12 gcc-gfortran make hdf5-devel \
                     java-21-openjdk-devel maven \
                     nodejs npm docker docker-compose-plugin
 sudo systemctl enable --now docker
@@ -192,6 +194,14 @@ some macOS setups). Try:
 brew reinstall gcc
 which gfortran          # should point to /opt/homebrew/bin/gfortran
 ```
+
+### `Cannot open module file 'hdf5.mod'` or `cannot find -lhdf5_fortran`
+
+The kernel can't find HDF5's Fortran bindings. Install the dev package that
+ships them (`brew install hdf5` on macOS, `sudo apt install libhdf5-dev` on
+Ubuntu/Debian, `hdf5-devel` on Fedora, `hdf5` on Arch) and rebuild with
+`make -C kernel clean && make -C kernel`. To see exactly which paths the
+build resolved, run `make -C kernel info`.
 
 ### `Node.js version v20.14.0 detected. The Angular CLI requires v20.19+ or v22.12+`
 

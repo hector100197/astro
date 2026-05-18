@@ -35,6 +35,7 @@ mínimos — **no necesitas instalar todo**.
 - Python 3.10 o más nuevo
 - Compilador C/Fortran (`gfortran` en Linux/macOS)
 - GNU `make`
+- HDF5 con bindings de Fortran (el kernel escribe snapshots HDF5)
 
 Comandos exactos por SO en [INSTALL.md](INSTALL.md#path-a-prerequisites).
 
@@ -81,7 +82,7 @@ nbody-sim --scenario pleiades --output pleiades.h5 --diagnostics
 **Prerequisitos:**
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (para
   el contenedor de PostgreSQL — todo lo demás corre local)
-- Java 21, Maven 3.9+, Node.js 22+, gfortran
+- Java 21, Maven 3.9+, Node.js 22+, gfortran, HDF5 (con bindings de Fortran)
 - Comandos por SO en [INSTALL.md](INSTALL.md#path-b-prerequisites).
 
 ### Levantar el stack completo

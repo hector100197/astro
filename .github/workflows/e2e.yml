@@ -24,8 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install gfortran
-        run: sudo apt-get update && sudo apt-get install -y gfortran
+      - name: Install gfortran + HDF5
+        run: sudo apt-get update && sudo apt-get install -y gfortran libhdf5-dev
 
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '21', cache: maven }

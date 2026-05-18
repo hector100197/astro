@@ -39,6 +39,7 @@ Three different ways to use `astro`. Each has its own minimal prerequisites —
 - Python 3.10 or newer
 - A C/Fortran compiler (`gfortran` on Linux/macOS)
 - GNU `make`
+- HDF5 with Fortran bindings (the kernel writes HDF5 snapshots)
 
 **Install commands** for your OS in [INSTALL.md](INSTALL.md#path-a-prerequisites).
 
@@ -86,7 +87,7 @@ for a fully-worked Jupyter example.
 **Prerequisites:**
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for the
   PostgreSQL container — anything else runs locally)
-- Java 21, Maven 3.9+, Node.js 22+, gfortran
+- Java 21, Maven 3.9+, Node.js 22+, gfortran, HDF5 (with Fortran bindings)
 - See [INSTALL.md](INSTALL.md#path-b-prerequisites) for one-line installers per OS
 
 ### Start the whole stack

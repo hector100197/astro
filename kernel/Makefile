@@ -23,14 +23,20 @@ HAVE_PKG_HDF5 := $(shell pkg-config --exists hdf5_fortran 2>/dev/null && echo ye
 ifeq ($(HAVE_PKG_HDF5),yes)
     HDF5_CFLAGS := $(shell pkg-config --cflags hdf5_fortran)
     HDF5_LIBS   := $(shell pkg-config --libs hdf5_fortran)
-else
-    # Homebrew fallback (Apple Silicon path).
+else ifeq ($(UNAME_S),Darwin)
+    # Homebrew fallback (Apple Silicon path, then Intel / older Homebrew).
     HDF5_PREFIX := /opt/homebrew/opt/hdf5
     ifeq ($(wildcard $(HDF5_PREFIX)/lib/libhdf5_fortran.$(LIB_EXT)),)
-        HDF5_PREFIX := /usr/local/opt/hdf5    # Intel macOS / older Homebrew
+        HDF5_PREFIX := /usr/local/opt/hdf5
     endif
     HDF5_CFLAGS := -I$(HDF5_PREFIX)/include
     HDF5_LIBS   := -L$(HDF5_PREFIX)/lib -lhdf5_fortran -lhdf5
+else
+    # Linux fallback: Debian/Ubuntu `libhdf5-dev` serial multiarch layout
+    # (modules in /usr/include/hdf5/serial, libs in the arch-specific dir).
+    HDF5_ARCH   := $(shell uname -m)
+    HDF5_CFLAGS := -I/usr/include/hdf5/serial
+    HDF5_LIBS   := -L/usr/lib/$(HDF5_ARCH)-linux-gnu/hdf5/serial -lhdf5_fortran -lhdf5
 endif
 
 FFLAGS_RELEASE := -O3 -march=native -fopenmp -fimplicit-none -std=f2018 -Wall -fPIC $(HDF5_CFLAGS)
