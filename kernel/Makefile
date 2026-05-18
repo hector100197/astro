@@ -68,8 +68,13 @@ info:
 	@echo "HDF5_CFLAGS = $(HDF5_CFLAGS)"
 	@echo "HDF5_LIBS   = $(HDF5_LIBS)"
 
+# Link order matters on GNU ld (Linux): object files must come BEFORE the
+# libraries, otherwise `--as-needed` (the Ubuntu default) drops -lhdf5* since
+# no undefined symbols reference them yet at that point. macOS ld64 is lenient,
+# which is why the old order built locally but produced an HDF5-less .so on
+# Linux that failed to dlopen.
 $(BUILD_DIR)/$(LIB_NAME): $(OBJECTS) | $(BUILD_DIR)
-	$(FC) $(LIB_FLAGS) $(LDFLAGS) -o $@ $^
+	$(FC) $(LIB_FLAGS) -o $@ $^ $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.f90 | $(BUILD_DIR)
 	$(FC) $(FFLAGS) -J$(BUILD_DIR) -c $< -o $@
