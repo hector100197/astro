@@ -8,18 +8,11 @@ on:
 jobs:
   end-to-end:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: astro
-          POSTGRES_USER: astro
-          POSTGRES_PASSWORD: astro_dev
-        # Mirror the docker-compose mapping (host 5433 → container 5432) so the
-        # services pick up the same JDBC URL they use locally.
-        ports:
-          - 5433:5432
-        options: --health-cmd "pg_isready -U astro" --health-interval 5s --health-timeout 3s --health-retries 5
+    # No `services: postgres` here on purpose: scripts/dev.sh brings up its
+    # own postgres via docker-compose (host :5433). Declaring a workflow
+    # service on the same port collides ("port is already allocated") and
+    # makes dev.sh abort. Running dev.sh unmodified also makes this job
+    # exercise the exact path a user follows for `make dev`.
 
     steps:
       - uses: actions/checkout@v4
