@@ -46,8 +46,4 @@ jobs:
         run: pip install -e 'python[dev]'
 
       - name: Test
-        # Tolerate "no tests collected" while the wrapper test suite is built up.
-        # The python wrapper is a thin import shim over the Fortran kernel; the
-        # physics it exposes is already validated in PhysicsValidationTest (Java).
-        # pytest exit code 5 ≡ no tests collected — treat that as success here.
-        run: pytest python/tests || [ $? -eq 5 ]
+        run: pytest python/tests -q

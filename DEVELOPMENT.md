@@ -104,7 +104,7 @@ intentionally skipped today.
 ```bash
 cd python
 source .venv/bin/activate
-pytest tests/             # currently a stub; expand here
+pytest tests/             # smoke tests over the native kernel binding
 ```
 
 The wrapper is intentionally thin — it's a ctypes facade plus YAML
