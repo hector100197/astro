@@ -34,9 +34,13 @@ else ifeq ($(UNAME_S),Darwin)
 else
     # Linux fallback: Debian/Ubuntu `libhdf5-dev` serial multiarch layout
     # (modules in /usr/include/hdf5/serial, libs in the arch-specific dir).
+    # The serial dir is NOT on the default runtime linker path, so embed an
+    # rpath — otherwise dlopen() of this .so (e.g. from the JVM via FFM)
+    # fails with "Cannot open library" even though linking succeeded.
     HDF5_ARCH   := $(shell uname -m)
+    HDF5_DIR    := /usr/lib/$(HDF5_ARCH)-linux-gnu/hdf5/serial
     HDF5_CFLAGS := -I/usr/include/hdf5/serial
-    HDF5_LIBS   := -L/usr/lib/$(HDF5_ARCH)-linux-gnu/hdf5/serial -lhdf5_fortran -lhdf5
+    HDF5_LIBS   := -L$(HDF5_DIR) -Wl,-rpath,$(HDF5_DIR) -lhdf5_fortran -lhdf5
 endif
 
 FFLAGS_RELEASE := -O3 -march=native -fopenmp -fimplicit-none -std=f2018 -Wall -fPIC $(HDF5_CFLAGS)

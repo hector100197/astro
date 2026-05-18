@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'services/**'
+      - 'kernel/**'
       - '.github/workflows/services.yml'
   pull_request:
     paths:
       - 'services/**'
+      - 'kernel/**'
 
 jobs:
   build-and-test:
