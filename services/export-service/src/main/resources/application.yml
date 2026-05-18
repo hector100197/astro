@@ -1,0 +1,36 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: export-service
+  datasource:
+    # Host port 5433 — see ADR-0005 (avoids conflict with other Postgres on 5432).
+    url: jdbc:postgresql://localhost:5433/astro
+    username: astro
+    password: astro_dev
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+astro:
+  kernel:
+    library-path: ${ASTRO_KERNEL_LIB:../../kernel/build/libnbody.dylib}
+    openmp-threads: ${OMP_NUM_THREADS:8}
+  output:
+    hdf5-dir: ${ASTRO_DATA_DIR:../../data}
+  cors:
+    # Comma-separated. Spring auto-converts to List<String> when injected via @Value.
+    allowed-origins: http://localhost:4200,http://localhost:4202

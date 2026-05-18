@@ -1,0 +1,48 @@
+name: python
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'python/**'
+      - 'kernel/**'
+      - '.github/workflows/python.yml'
+  pull_request:
+    paths:
+      - 'python/**'
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gfortran (macOS)
+        if: runner.os == 'macOS'
+        run: brew install gcc
+
+      - name: Install gfortran (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y gfortran
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build kernel
+        run: make -C kernel
+
+      - name: Install package
+        run: pip install -e 'python[dev]'
+
+      - name: Test
+        # Tolerate "no tests collected" while the wrapper test suite is built up.
+        # The python wrapper is a thin import shim over the Fortran kernel; the
+        # physics it exposes is already validated in PhysicsValidationTest (Java).
+        # pytest exit code 5 ≡ no tests collected — treat that as success here.
+        run: pytest python/tests || [ $? -eq 5 ]

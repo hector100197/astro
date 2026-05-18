@@ -1,0 +1,32 @@
+# Aarseth standard cluster test (NBODY6 reference run).
+# Plummer model, N=100, used for cross-validation against NBODY6 output.
+name: aarseth_standard
+description: |
+  Standard small Plummer cluster used by Aarseth in NBODY6 documentation
+  for code verification. N=100 with mass ratio 1:1, integrated for 100 N-body
+  units. Our reference benchmark for cross-checking against published NBODY6
+  output.
+
+n_bodies: 100
+units: henon
+
+initial_condition:
+  type: plummer
+  scale_length: 1.0
+  total_mass: 1.0
+  rng_seed: 1     # Aarseth's reference seed
+
+simulation:
+  integrator: leapfrog
+  force_calculator: brute_force_o2
+  dt: 0.001
+  softening: 0.005
+  n_steps: 100000     # ≈ 100 N-body time units
+
+validation:
+  energy_drift_threshold_pct: 0.05
+  virial_ratio_threshold: 0.05
+  compare_against: "NBODY6 reference output"
+
+display:
+  units_for_ui: henon

@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: astro-postgres
+    environment:
+      POSTGRES_DB: astro
+      POSTGRES_USER: astro
+      POSTGRES_PASSWORD: astro_dev
+    # Host port 5433 → container 5432: avoids conflict with other Postgres
+    # instances commonly running on 5432 (e.g. another project's container).
+    # The astro app and tools always reference :5433 for this reason.
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # NOTE: we intentionally do NOT mount infrastructure/postgres/init.sql here.
+      # Flyway (Spring Boot side) is the single source of truth for schema; running
+      # both would conflict (Flyway sees a non-empty schema with no history table).
+      # init.sql remains as historical documentation only.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U astro -d astro"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Optional V2: object storage for large HDF5 outputs
+  # minio:
+  #   image: minio/minio:latest
+  #   container_name: astro-minio
+  #   command: server /data --console-address ":9001"
+  #   environment:
+  #     MINIO_ROOT_USER: astro
+  #     MINIO_ROOT_PASSWORD: astro_dev_minio
+  #   ports:
+  #     - "9000:9000"
+  #     - "9001:9001"
+  #   volumes:
+  #     - minio_data:/data
+
+  # Optional V2: event bus for service-to-service async events
+  # rabbitmq:
+  #   image: rabbitmq:3-management-alpine
+  #   container_name: astro-rabbitmq
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
+
+volumes:
+  postgres_data:
+  # minio_data:

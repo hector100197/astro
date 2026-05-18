@@ -1,0 +1,33 @@
+# Plummer model approximation of the Pleiades open cluster (~3000 stars).
+# Hénon units throughout. UI converts to astronomical units for display.
+name: pleiades
+description: |
+  Open cluster, ~3000 stars, Plummer profile, mass ratio uniform.
+  Approximates the Pleiades (Messier 45). Validated against Gaia DR3 cluster
+  membership for total mass and half-mass radius scale.
+
+n_bodies: 3000
+units: henon
+
+initial_condition:
+  type: plummer
+  scale_length: 1.0     # a (Plummer length) in Hénon units
+  total_mass: 1.0       # M = 1 in Hénon units
+  rng_seed: 42
+
+simulation:
+  integrator: leapfrog
+  force_calculator: brute_force_o2
+  dt: 0.001
+  softening: 0.01
+  n_steps: 10000
+
+validation:
+  enforce_kepler_test: false   # not applicable for N=3000
+  energy_drift_threshold_pct: 0.1
+  virial_ratio_threshold: 0.05
+
+display:
+  units_for_ui: astronomical
+  reference_cluster: "Pleiades (M45)"
+  expected_age_myr: 100

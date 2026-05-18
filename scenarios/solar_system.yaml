@@ -1,0 +1,41 @@
+# Reduced solar system: Sun + 8 planets, current epoch positions and velocities.
+# Educational scenario for orbital mechanics, eclipses, perihelion precession demos.
+# Hénon units rescaled so that 1 AU = 1 length unit, 1 yr = 2π time units, M_sun = 1.
+name: solar_system
+description: |
+  Sun + 8 planets at approximate J2000.0 epoch. Educational scenario showing
+  Keplerian orbits, conjunctions, opposition geometry. Hénon units chosen so
+  that 1 AU = 1 and one year = 2π time units (G·M_sun = 1).
+
+n_bodies: 9
+units: henon_solar          # 1 AU = 1, 1 year = 2π, M_sun = 1
+
+initial_condition:
+  type: explicit
+  bodies:
+    # name, mass (M_sun), x, y, z (AU), vx, vy, vz (AU/yr * 2π)
+    # Approximate values; exact JPL ephemeris in V2.
+    - { x:  0.0,    y: 0.0, z: 0.0, vx:  0.0,    vy:  0.0,    vz: 0.0, mass: 1.0 }       # Sun
+    - { x:  0.39,   y: 0.0, z: 0.0, vx:  0.0,    vy:  10.07,  vz: 0.0, mass: 1.66e-7 }   # Mercury
+    - { x:  0.72,   y: 0.0, z: 0.0, vx:  0.0,    vy:   7.39,  vz: 0.0, mass: 2.45e-6 }   # Venus
+    - { x:  1.00,   y: 0.0, z: 0.0, vx:  0.0,    vy:   6.28,  vz: 0.0, mass: 3.00e-6 }   # Earth
+    - { x:  1.52,   y: 0.0, z: 0.0, vx:  0.0,    vy:   5.09,  vz: 0.0, mass: 3.23e-7 }   # Mars
+    - { x:  5.20,   y: 0.0, z: 0.0, vx:  0.0,    vy:   2.76,  vz: 0.0, mass: 9.55e-4 }   # Jupiter
+    - { x:  9.58,   y: 0.0, z: 0.0, vx:  0.0,    vy:   2.03,  vz: 0.0, mass: 2.86e-4 }   # Saturn
+    - { x: 19.20,   y: 0.0, z: 0.0, vx:  0.0,    vy:   1.43,  vz: 0.0, mass: 4.37e-5 }   # Uranus
+    - { x: 30.05,   y: 0.0, z: 0.0, vx:  0.0,    vy:   1.15,  vz: 0.0, mass: 5.15e-5 }   # Neptune
+
+simulation:
+  integrator: leapfrog
+  force_calculator: brute_force_o2
+  dt: 0.01           # ≈ 1.6 days
+  softening: 0.0
+  n_steps: 100000    # ≈ 1000 yr
+
+validation:
+  energy_drift_threshold_pct: 0.001
+  body_labels: ["Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
+
+display:
+  units_for_ui: astronomical
+  show_orbits: true

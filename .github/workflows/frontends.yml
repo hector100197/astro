@@ -1,0 +1,40 @@
+name: frontends
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - '.github/workflows/frontends.yml'
+  pull_request:
+    paths:
+      - 'apps/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [shell-app, simulation-mfe, export-mfe]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: apps/${{ matrix.app }}/package-lock.json
+
+      - name: Install
+        working-directory: apps/${{ matrix.app }}
+        run: npm ci
+
+      - name: Build
+        working-directory: apps/${{ matrix.app }}
+        run: npm run build
+
+      # Frontend unit tests are intentionally not run here. For the JOSS scope
+      # the user-facing surfaces are exercised end-to-end by the Playwright
+      # suite in tests/e2e (see e2e.yml). A karma/vitest setup can be added
+      # later without changing this workflow's contract.

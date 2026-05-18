@@ -1,0 +1,32 @@
+# Hénon-Heiles potential — classic 2D test problem for chaos in stellar dynamics.
+# Not strictly an N-body problem; a single particle in a fixed potential.
+# Useful as an integrator quality test.
+name: henon_heiles
+description: |
+  A single test particle in the Hénon-Heiles non-integrable 2D potential,
+  V(x,y) = ½(x² + y²) + x²y - ⅓y³. Below the critical energy E_c = 1/6 the
+  motion is bounded; above it, the particle escapes through one of three
+  channels. Used as a benchmark for symplectic integrators.
+
+n_bodies: 1
+units: henon
+external_potential: henon_heiles    # special: not Newtonian gravity
+
+initial_condition:
+  type: explicit
+  bodies:
+    - { x: 0.0, y: 0.1, z: 0.0, vx: 0.5, vy: 0.0, vz: 0.0, mass: 1.0 }
+
+simulation:
+  integrator: leapfrog
+  force_calculator: external_potential
+  dt: 0.001
+  softening: 0.0
+  n_steps: 200000
+
+validation:
+  energy_drift_threshold_pct: 0.001
+
+display:
+  units_for_ui: henon
+  show_phase_portrait: true

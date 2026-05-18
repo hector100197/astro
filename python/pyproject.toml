@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel", "numpy>=1.26"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "astro-nbody"
+version = "0.1.0"
+description = "Python bindings for the astro N-body stellar cluster simulator (Fortran 2018 + OpenMP kernel)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Héctor Medel", email = "jrmv100197@gmail.com" }
+]
+keywords = ["n-body", "astrophysics", "stellar-clusters", "fortran", "hpc"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Fortran",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Physics"
+]
+dependencies = [
+    "numpy>=1.26",
+    "h5py>=3.10",
+    "pyyaml>=6.0"
+]
+
+[project.optional-dependencies]
+notebooks = ["jupyter>=1.0", "matplotlib>=3.8", "astropy>=6.0"]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff>=0.4"]
+gaia = ["astropy>=6.0", "astroquery>=0.4.7"]
+
+[project.scripts]
+nbody-sim = "astro_nbody.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/hector100197/astro"
+Documentation = "https://hector100197.github.io/astro/"
+Repository = "https://github.com/hector100197/astro"
+Issues = "https://github.com/hector100197/astro/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["astro_nbody*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

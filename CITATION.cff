@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "astro: N-body stellar cluster simulator with hybrid Fortran/Java/Angular stack"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: "Medel"
+    given-names: "Héctor"
+    email: "jrmv100197@gmail.com"
+    orcid: "https://orcid.org/0009-0009-8954-4234"
+repository-code: "https://github.com/hector100197/astro"
+license: MIT
+version: "0.1.0"
+date-released: "2026-05-11"
+keywords:
+  - n-body
+  - astrophysics
+  - stellar-clusters
+  - fortran
+  - openmp
+  - high-performance-computing
+  - scientific-visualization
+  - validation
+abstract: >-
+  An N-body simulator for stellar clusters combining a Fortran 2018 + OpenMP
+  numerical kernel with a Java 21 / Spring Boot microservices backend and an
+  Angular 21 micro-frontend visualization layer. Designed for reproducible
+  research and computational physics education, with native HDF5 output,
+  reproducibility manifests, automatic physics validation (six-check
+  NBODY6-grade verdict per run), downloadable PDF/LaTeX/JSON report
+  bundles, and integration with Gaia DR3 catalogs.

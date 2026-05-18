@@ -1,0 +1,48 @@
+name: services
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - '.github/workflows/services.yml'
+  pull_request:
+    paths:
+      - 'services/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: astro
+          POSTGRES_USER: astro
+          POSTGRES_PASSWORD: astro_dev
+        # Host 5433 → container 5432 mirrors docker-compose.yml so the JDBC URL
+        # hard-coded in application.yml works in CI without overrides.
+        ports:
+          - 5433:5432
+        options: --health-cmd "pg_isready -U astro" --health-interval 5s --health-timeout 3s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gfortran
+        run: sudo apt-get update && sudo apt-get install -y gfortran
+
+      - name: Build native kernel (needed by PhysicsValidationTest)
+        run: make -C kernel
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build & test
+        working-directory: services
+        env:
+          ASTRO_KERNEL_LIB: ${{ github.workspace }}/kernel/build/libnbody.so
+        run: mvn -B verify

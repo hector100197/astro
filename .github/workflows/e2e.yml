@@ -1,0 +1,59 @@
+name: e2e
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  end-to-end:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: astro
+          POSTGRES_USER: astro
+          POSTGRES_PASSWORD: astro_dev
+        # Mirror the docker-compose mapping (host 5433 → container 5432) so the
+        # services pick up the same JDBC URL they use locally.
+        ports:
+          - 5433:5432
+        options: --health-cmd "pg_isready -U astro" --health-interval 5s --health-timeout 3s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gfortran
+        run: sudo apt-get update && sudo apt-get install -y gfortran
+
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21', cache: maven }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+
+      - name: Build kernel
+        run: make -C kernel
+
+      - name: Build services
+        working-directory: services
+        run: mvn -B -DskipTests package
+
+      - name: Build apps
+        run: |
+          for app in apps/shell-app apps/simulation-mfe apps/export-mfe; do
+            (cd "$app" && npm install && npm run build)
+          done
+
+      - name: Install Playwright
+        working-directory: tests/e2e
+        run: |
+          npm install
+          npx playwright install --with-deps
+
+      - name: Start stack & run E2E
+        run: |
+          ./scripts/dev.sh &
+          sleep 30
+          (cd tests/e2e && npx playwright test) || (echo "E2E failed"; exit 1)

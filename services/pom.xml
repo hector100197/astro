@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mx.astro</groupId>
+    <artifactId>astro-services</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>astro-services</name>
+    <description>Reactor POM for the astro N-body simulator backend services.</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.2</version>
+        <relativePath/>
+    </parent>
+
+    <modules>
+        <module>shared-contracts</module>
+        <module>simulation-service</module>
+        <module>export-service</module>
+    </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>mx.astro</groupId>
+                <artifactId>shared-contracts</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <release>${java.version}</release>
+                        <compilerArgs>
+                            <arg>-Xlint:all</arg>
+                            <arg>-Xlint:-preview</arg>
+                            <!--
+                              NOTE: the enable-preview flag was intentionally removed.
+                              It requires the active JDK to match release exactly
+                              (JDK 21 with release=21). Re-add it when we adopt a preview
+                              feature AND have aligned JDK and release. FFM is preview in
+                              Java 21, stable in 22+; on JDK 25+ no preview flag is needed
+                              for FFM.
+                            -->
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <argLine>--enable-native-access=ALL-UNNAMED</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <jvmArguments>--enable-native-access=ALL-UNNAMED</jvmArguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!--
+          Attach the spring-boot plugin to the parent reactor with skip=true so that
+          running 'mvn spring-boot:run' at this level produces a clean no-op instead
+          of an opaque "no main class" failure. Spring Boot service modules override
+          skip back to false in their own <build><plugins>.
+        -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!--
+          Auto-activated when running on JDK 21. FFM (java.lang.foreign) is preview
+          in 21 and stable from 22 onward, so we only need the preview compile/run
+          flags when JDK == 21. On 22+ this profile is dormant.
+        -->
+        <profile>
+            <id>jdk21-ffm-preview</id>
+            <activation>
+                <jdk>21</jdk>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <compilerArgs combine.children="append">
+                                    <arg>--enable-preview</arg>
+                                </compilerArgs>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <argLine>--enable-preview --enable-native-access=ALL-UNNAMED</argLine>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-maven-plugin</artifactId>
+                            <configuration>
+                                <jvmArguments>--enable-preview --enable-native-access=ALL-UNNAMED</jvmArguments>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

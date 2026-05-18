@@ -1,0 +1,35 @@
+name: kernel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'kernel/**'
+      - '.github/workflows/kernel.yml'
+  pull_request:
+    paths:
+      - 'kernel/**'
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gfortran (macOS)
+        if: runner.os == 'macOS'
+        run: brew install gcc
+
+      - name: Install gfortran (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y gfortran
+
+      - name: Build kernel
+        run: make -C kernel
+
+      - name: Run kernel tests
+        run: make -C kernel test

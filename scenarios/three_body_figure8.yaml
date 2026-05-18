@@ -1,0 +1,32 @@
+# Figure-8 three-body orbit (Chenciner & Montgomery, 2000).
+# Three equal masses on a stable choreographic orbit forming a figure-8.
+# Beautifully visual; classic test of integrator quality.
+name: three_body_figure8
+description: |
+  Three equal masses orbiting on the figure-8 choreography discovered by
+  Chenciner & Montgomery (2000). The orbit is stable but extremely sensitive
+  to integrator drift — a beautiful long-run validation case.
+
+n_bodies: 3
+units: henon
+
+initial_condition:
+  type: explicit
+  bodies:
+    - { x:  0.97000436, y: -0.24308753, z: 0.0, vx:  0.46620369, vy:  0.43236573, vz: 0.0, mass: 1.0 }
+    - { x: -0.97000436, y:  0.24308753, z: 0.0, vx:  0.46620369, vy:  0.43236573, vz: 0.0, mass: 1.0 }
+    - { x:  0.0,        y:  0.0,        z: 0.0, vx: -0.93240737, vy: -0.86473146, vz: 0.0, mass: 1.0 }
+
+simulation:
+  integrator: leapfrog
+  force_calculator: brute_force_o2
+  dt: 0.0001
+  softening: 0.0     # no softening; bodies don't approach close enough
+  n_steps: 100000
+
+validation:
+  energy_drift_threshold_pct: 0.001
+  period: 6.32591398
+
+display:
+  units_for_ui: henon

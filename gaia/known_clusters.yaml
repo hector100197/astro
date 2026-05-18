@@ -1,0 +1,53 @@
+# Curated list of nearby open clusters with established membership catalogs.
+# Each entry carries enough to run a Gaia DR3 cone search with reliable filtering.
+
+clusters:
+  - name: "Pleiades"
+    aliases: ["M45", "Messier 45"]
+    ra_deg: 56.75
+    dec_deg: 24.117
+    distance_pc: 136.2
+    radius_deg: 2.0
+    membership_reference: "Cantat-Gaudin et al. 2020 (A&A 633, A99)"
+    approximate_age_myr: 100
+    approximate_n_members: 1200
+
+  - name: "Hyades"
+    aliases: ["Melotte 25"]
+    ra_deg: 66.75
+    dec_deg: 15.867
+    distance_pc: 47.0
+    radius_deg: 5.0
+    membership_reference: "Lodieu et al. 2019"
+    approximate_age_myr: 625
+    approximate_n_members: 700
+
+  - name: "M67"
+    aliases: ["NGC 2682"]
+    ra_deg: 132.825
+    dec_deg: 11.800
+    distance_pc: 850.0
+    radius_deg: 1.0
+    membership_reference: "Gao 2018"
+    approximate_age_myr: 4000
+    approximate_n_members: 1500
+
+  - name: "NGC 752"
+    aliases: []
+    ra_deg: 29.220
+    dec_deg: 37.792
+    distance_pc: 460.0
+    radius_deg: 1.0
+    membership_reference: "Cantat-Gaudin et al. 2020"
+    approximate_age_myr: 1750
+    approximate_n_members: 380
+
+  - name: "Praesepe"
+    aliases: ["M44", "Beehive"]
+    ra_deg: 130.054
+    dec_deg: 19.621
+    distance_pc: 187.0
+    radius_deg: 1.5
+    membership_reference: "Lodieu et al. 2019"
+    approximate_age_myr: 600
+    approximate_n_members: 1000

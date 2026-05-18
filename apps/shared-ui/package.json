@@ -1,0 +1,10 @@
+{
+  "name": "@astro/shared-ui",
+  "version": "0.1.0",
+  "description": "Shared component library for astro micro-frontends",
+  "private": true,
+  "peerDependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0"
+  }
+}

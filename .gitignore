@@ -1,0 +1,76 @@
+# Claude Code (local agent config — never publish)
+.claude/
+
+# Personal strategy notes — kept local, not part of the project
+docs/stack_sweet_spots.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Kernel (Fortran)
+kernel/build/
+kernel/*.o
+kernel/*.mod
+kernel/*.smod
+kernel/*.so
+kernel/*.dylib
+kernel/*.dll
+kernel/*.a
+
+# Java / Maven
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+**/.idea/
+**/*.iml
+**/out/
+**/bin/
+
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+**/.nx/
+**/.turbo/
+**/npm-debug.log*
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/.pytest_cache/
+**/.tox/
+**/.coverage
+**/htmlcov/
+**/dist/
+**/*.egg-info/
+**/.ipynb_checkpoints/
+**/.venv/
+**/venv/
+python/build/
+
+# Sphinx
+docs-site/build/
+
+# Data outputs
+data/*
+!data/.gitkeep
+
+# HDF5 anywhere
+*.h5
+*.hdf5
+
+# Postgres docker volumes
+infrastructure/postgres/data/
+
+# Logs
+*.log
+logs/
