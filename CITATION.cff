@@ -8,9 +8,10 @@ authors:
     email: "jrmv100197@gmail.com"
     orcid: "https://orcid.org/0009-0009-8954-4234"
 repository-code: "https://github.com/hector100197/astro"
+doi: "10.5281/zenodo.20264301"
 license: MIT
 version: "0.1.0"
-date-released: "2026-05-11"
+date-released: "2026-05-17"
 keywords:
   - n-body
   - astrophysics

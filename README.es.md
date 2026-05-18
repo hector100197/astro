@@ -1,6 +1,6 @@
 # astro — Simulador N-body de cúmulos estelares
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.PENDING.svg)](https://doi.org/10.5281/zenodo.PENDING)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20264301.svg)](https://doi.org/10.5281/zenodo.20264301)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Banco de trabajo open-source para simulaciones N-body por suma directa de

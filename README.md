@@ -1,6 +1,6 @@
 # astro — N-body stellar cluster simulator
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.PENDING.svg)](https://doi.org/10.5281/zenodo.PENDING)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20264301.svg)](https://doi.org/10.5281/zenodo.20264301)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![kernel](https://github.com/hector100197/astro/actions/workflows/kernel.yml/badge.svg)](https://github.com/hector100197/astro/actions/workflows/kernel.yml)
 [![services](https://github.com/hector100197/astro/actions/workflows/services.yml/badge.svg)](https://github.com/hector100197/astro/actions/workflows/services.yml)
@@ -177,7 +177,7 @@ If you use `astro` in a publication, please cite the Zenodo-archived release:
   version      = {0.1.0},
   year         = {2026},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.PENDING},
+  doi          = {10.5281/zenodo.20264301},
   url          = {https://github.com/hector100197/astro}
 }
 ```
