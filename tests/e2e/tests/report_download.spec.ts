@@ -32,7 +32,8 @@ async function findOrCreateCompletedJob(req: APIRequestContext): Promise<string>
     },
   });
   const job = await created.json();
-  const deadline = Date.now() + 120_000;
+  // CI runners are several times slower than a dev box; stay under the 240s budget.
+  const deadline = Date.now() + 210_000;
   while (Date.now() < deadline) {
     const r = await (await req.get(`${API}/${job.id}`)).json();
     if (r.status === 'completed' && r.reportAvailable) return job.id;

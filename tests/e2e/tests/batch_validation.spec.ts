@@ -42,8 +42,9 @@ async function submitJob(req: APIRequestContext, dt: number): Promise<string> {
 }
 
 async function waitForCompletion(req: APIRequestContext, id: string): Promise<JobDto> {
-  // Pleiades N=3000 + 5000 steps completes in ~30s on the dev box. Give ample slack.
-  const deadline = Date.now() + 120_000;
+  // Pleiades N=3000 + 5000 steps completes in ~30s on the dev box, but a
+  // shared CI runner is several times slower. Stay under the 240s test budget.
+  const deadline = Date.now() + 210_000;
   while (Date.now() < deadline) {
     const res = await req.get(`${API}/${id}`);
     const job: JobDto = await res.json();

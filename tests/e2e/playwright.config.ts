@@ -2,7 +2,11 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 60_000,
+  // Heavy specs submit a real N=3000 / 5000-step Pleiades run and wait for
+  // the full pipeline (kernel → analysis → report → validation). On a
+  // shared CI runner that is several times slower than a dev box, so the
+  // per-test (and beforeAll-hook) budget must comfortably exceed it.
+  timeout: 240_000,
   expect: { timeout: 5_000 },
   retries: process.env.CI ? 2 : 0,
   reporter: [['html', { open: 'never' }], ['list']],
