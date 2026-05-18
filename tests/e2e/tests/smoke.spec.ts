@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Smoke test — verifies the dev stack is up end-to-end:
- *   simulation-service on :8081 + simulation-mfe on :4200.
+ *   simulation-service on :8081 + simulation-mfe on :4201.
  *
  * Fast fail signal for CI: if this breaks, every other spec will too.
  */
