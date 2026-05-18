@@ -22,13 +22,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install gfortran (macOS)
+      - name: Install gfortran + HDF5 (macOS)
         if: runner.os == 'macOS'
-        run: brew install gcc
+        run: |
+          brew install gcc hdf5
+          # Homebrew's gcc ships gfortran-NN but no unversioned `gfortran`,
+          # which the kernel Makefile expects. Symlink the newest one.
+          ln -sf "$(ls "$(brew --prefix gcc)"/bin/gfortran-* | sort -V | tail -1)" "$(brew --prefix)/bin/gfortran"
+          gfortran --version
 
-      - name: Install gfortran (Linux)
+      - name: Install gfortran + HDF5 (Linux)
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y gfortran
+        run: sudo apt-get update && sudo apt-get install -y gfortran libhdf5-dev
 
       - uses: actions/setup-python@v5
         with:
