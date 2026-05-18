@@ -1,6 +1,7 @@
 name: docs
 
 on:
+  workflow_dispatch:        # manual re-deploy of the docs site
   push:
     branches: [main]
     paths:
