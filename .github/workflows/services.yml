@@ -43,8 +43,17 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Diagnose native kernel
+        run: |
+          echo "== kernel/build =="
+          ls -la "$GITHUB_WORKSPACE/kernel/build/" || true
+          file "$GITHUB_WORKSPACE/kernel/build/libnbody.so" || true
+          echo "== ldd =="
+          ldd "$GITHUB_WORKSPACE/kernel/build/libnbody.so" || true
+
       - name: Build & test
         working-directory: services
         env:
           ASTRO_KERNEL_LIB: ${{ github.workspace }}/kernel/build/libnbody.so
+          LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu/hdf5/serial:/usr/lib/x86_64-linux-gnu
         run: mvn -B verify
