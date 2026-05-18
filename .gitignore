@@ -26,12 +26,13 @@ kernel/*.dll
 kernel/*.a
 
 # Java / Maven
+# NOTE: do NOT add `**/out/` or `**/bin/` here — the hexagonal architecture
+# uses `infrastructure/out/` as a *source* package, and those rules would
+# silently exclude real source files. Maven build output is `**/target/`.
 **/target/
 **/.mvn/wrapper/maven-wrapper.jar
 **/.idea/
 **/*.iml
-**/out/
-**/bin/
 
 # Node / Angular
 **/node_modules/
