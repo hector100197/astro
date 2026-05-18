@@ -25,12 +25,9 @@ After `npm install` in each app, run:
 cd apps/shell-app
 npx ng add @angular-architects/native-federation --type dynamic-host --project shell-app
 
-# Remotes
+# Remote
 cd apps/simulation-mfe
 npx ng add @angular-architects/native-federation --type remote --project simulation-mfe
-
-cd apps/export-mfe
-npx ng add @angular-architects/native-federation --type remote --project export-mfe
 ```
 
 This swaps the builder in `angular.json` from `@angular-devkit/build-angular:application`

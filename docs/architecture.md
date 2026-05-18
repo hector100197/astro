@@ -9,8 +9,7 @@
 │                              Browser                                      │
 │  ┌────────────────────────────────────────────────────────────────────┐  │
 │  │ shell-app :4200  (Native Federation host)                          │  │
-│  │   ├─ simulation-mfe :4201  (Live + Capture)                        │  │
-│  │   ├─ export-mfe     :4202  (Headless jobs)                         │  │
+│  │   ├─ simulation-mfe :4201  (Live viewer + batch drawer + reports) │  │
 │  │   └─ shared-ui             (lib of components, signals, i18n)      │  │
 │  └────────────────────────────────────────────────────────────────────┘  │
 └────────────────────────┬──────────────────────┬──────────────────────────┘
@@ -109,7 +108,7 @@ Driven adapters: implementations of ports.
 |-----------|--------------------------------------------------|------------------------------------------------------|
 | Live      | simulation-service runs kernel + WebSocket       | simulation-mfe receives binary stream, renders 3D    |
 | Capture   | (none extra) — reuses Live                       | simulation-mfe activates CCapture.js on the canvas   |
-| Headless  | export-service runs kernel without streaming     | export-mfe submits job, polls status, downloads HDF5 |
+| Headless  | simulation-service runs batch jobs + validation  | simulation-mfe batch drawer submits jobs, polls status, downloads PDF/HDF5/JSON |
 
 ## Decoupled timestep + interpolation (Live mode)
 
@@ -117,8 +116,7 @@ Following Glenn Fiedler's *Fix Your Timestep!* pattern: the kernel produces snap
 
 ## Communication
 
-- `simulation-mfe` ↔ `simulation-service`: REST for control (start/pause/setDt), WebSocket binary for snapshot stream.
-- `export-mfe` ↔ `export-service`: REST only (job submission, polling, download).
+- `simulation-mfe` ↔ `simulation-service`: REST for control (start/pause/setDt) and batch jobs (submit/poll/download), WebSocket binary for the snapshot stream.
 - `simulation-service` ↔ `export-service`: REST sync for cross-service queries; events via Postgres `LISTEN/NOTIFY` or RabbitMQ in V2.
 
 ## See also

@@ -18,8 +18,7 @@ astro/
 │   └── export-service/     HDF5 export endpoint
 ├── apps/                Angular 21 micro-frontends (Native Federation)
 │   ├── shell-app/          :4200 — host, loads remotes at runtime
-│   ├── simulation-mfe/     :4201 — viewer + batch drawer
-│   └── export-mfe/         :4202 — export UI
+│   └── simulation-mfe/     :4201 — viewer + batch drawer + report downloads
 ├── python/              astro_nbody Python wrapper (ctypes over libnbody)
 ├── scenarios/           YAML scenario catalog (consumed by all layers)
 ├── tests/e2e/           Playwright end-to-end specs

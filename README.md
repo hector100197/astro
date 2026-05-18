@@ -99,7 +99,7 @@ cd astro
 # Verify your toolchain (warns if anything is missing)
 ./scripts/dev-setup.sh
 
-# Bring up postgres + 2 backend services + 3 frontend MFEs
+# Bring up postgres + 2 backend services + 2 frontend MFEs
 make dev
 ```
 

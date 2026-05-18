@@ -33,7 +33,7 @@ echo
 echo "All required tools found. Proceeding to install per-layer dependencies..."
 
 echo "==> npm install (apps/)"
-for app in apps/shell-app apps/simulation-mfe apps/export-mfe; do
+for app in apps/shell-app apps/simulation-mfe; do
   (cd "$app" && npm install)
 done
 

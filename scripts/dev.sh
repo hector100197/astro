@@ -7,7 +7,6 @@
 #   - export-service (Spring Boot, :8082)
 #   - shell-app (Angular, :4200)
 #   - simulation-mfe (Angular, :4201)
-#   - export-mfe (Angular, :4202)
 #
 # Press Ctrl+C to stop everything.
 
@@ -38,7 +37,6 @@ echo "[3/4] Starting backend services..."
 echo "[4/4] Starting frontend MFEs..."
 (cd apps/shell-app && npm run start) &
 (cd apps/simulation-mfe && npm run start) &
-(cd apps/export-mfe && npm run start) &
 
 echo
 echo "All services starting up. Open:"

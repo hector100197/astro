@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [shell-app, simulation-mfe, export-mfe]
+        app: [shell-app, simulation-mfe]
     steps:
       - uses: actions/checkout@v4
 

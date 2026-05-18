@@ -18,9 +18,6 @@ echo "==> apps/shell-app"
 echo "==> apps/simulation-mfe"
 (cd apps/simulation-mfe && npm install && npm run build)
 
-echo "==> apps/export-mfe"
-(cd apps/export-mfe && npm install && npm run build)
-
 echo "==> python wrapper"
 (cd python && pip install -e . >/dev/null)
 

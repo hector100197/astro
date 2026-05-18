@@ -85,8 +85,8 @@ datasets and a `/Header` group carrying the reproducibility manifest. The
 service layer follows hexagonal architecture (`domain`, `application`,
 `infrastructure`) with three ports: a REST controller for batch jobs, a
 WebSocket for the interactive viewer, and a JPA adapter for the PostgreSQL
-manifest. The three Angular MFEs (`shell-app`, `simulation-mfe`,
-`export-mfe`) load each other at runtime through `@angular-architects/native-federation`.
+manifest. The Angular front end is a `shell-app` host that loads the
+`simulation-mfe` remote at runtime through `@angular-architects/native-federation`.
 
 # Validation
 

@@ -31,9 +31,10 @@ visualize → batch → validate → export.
   `three_body_pythagorean`, `henon_heiles`, `solar_system`
 
 #### Frontend (Angular 21)
-- `shell-app` (:4200), `simulation-mfe` (:4201), `export-mfe` (:4202)
+- `shell-app` (:4200) host + `simulation-mfe` (:4201) remote
 - Native Federation for independently deployable MFEs
-- Three-mode UI: live visualization, video capture, headless batch
+- Multi-mode UI in `simulation-mfe`: live visualization, video capture,
+  headless batch jobs with validation badge + PDF/HDF5/JSON report downloads
 - Time scrubber with Lagrangian radii overlay
 - Comparison mode for side-by-side runs
 - Click-to-follow particle with trail rendering

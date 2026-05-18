@@ -33,4 +33,4 @@ astro:
     hdf5-dir: ${ASTRO_DATA_DIR:../../data}
   cors:
     # Comma-separated. Spring auto-converts to List<String> when injected via @Value.
-    allowed-origins: http://localhost:4200,http://localhost:4202
+    allowed-origins: http://localhost:4200,http://localhost:4201

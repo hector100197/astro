@@ -17,7 +17,6 @@ echo "==> services tests"
 echo "==> apps tests"
 (cd apps/shell-app && npm test) || failed=1
 (cd apps/simulation-mfe && npm test) || failed=1
-(cd apps/export-mfe && npm test) || failed=1
 
 echo "==> python tests"
 (cd python && python -m pytest) || failed=1

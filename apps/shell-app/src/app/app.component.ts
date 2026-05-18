@@ -10,7 +10,6 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       <h1>astro — N-body simulator</h1>
       <nav>
         <a routerLink="/simulate" routerLinkActive="active" i18n>Simular</a>
-        <a routerLink="/export" routerLinkActive="active" i18n>Exportar</a>
         <a routerLink="/about" routerLinkActive="active" i18n>Acerca</a>
       </nav>
     </header>
