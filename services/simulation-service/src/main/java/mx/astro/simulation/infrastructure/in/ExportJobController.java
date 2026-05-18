@@ -84,7 +84,7 @@ public class ExportJobController {
         return service.get(id)
                 .map(this::toDto)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().<Map<String, Object>>build());
     }
 
     @GetMapping("/{id}/hdf5")

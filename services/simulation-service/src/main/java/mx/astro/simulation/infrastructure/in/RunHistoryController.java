@@ -46,7 +46,7 @@ public class RunHistoryController {
     public ResponseEntity<RunSummary> get(@PathVariable UUID id) {
         return runs.findById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().<RunSummary>build());
     }
 
     @GetMapping("/{id}/hdf5")

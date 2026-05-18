@@ -64,7 +64,7 @@ public class ScenarioController {
     public ResponseEntity<Map<String, Object>> get(@PathVariable String name) {
         return catalog.get(name)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().<Map<String, Object>>build());
     }
 
     /**

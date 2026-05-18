@@ -22,7 +22,12 @@ jobs:
 
       - name: Install gfortran + HDF5 (macOS)
         if: runner.os == 'macOS'
-        run: brew install gcc hdf5
+        run: |
+          brew install gcc hdf5
+          # Homebrew's gcc ships gfortran-NN but no unversioned `gfortran`,
+          # which the kernel Makefile expects. Symlink the newest one.
+          ln -sf "$(ls "$(brew --prefix gcc)"/bin/gfortran-* | sort -V | tail -1)" "$(brew --prefix)/bin/gfortran"
+          gfortran --version
 
       - name: Install gfortran + HDF5 (Linux)
         if: runner.os == 'Linux'
