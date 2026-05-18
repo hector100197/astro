@@ -42,6 +42,16 @@ jobs:
             (cd "$app" && npm install && npm run build)
           done
 
+      - name: Set up Python report env
+        # simulation-service spawns `python -m astro_nbody.report_plots` for
+        # the PDF figures and resolves ../../python/.venv/bin/python first.
+        # Without it the subprocess hits ModuleNotFoundError (best-effort, so
+        # the job still finishes, but the logs are noisy and figures are
+        # skipped). Provide the venv so the full report path is exercised.
+        run: |
+          python3 -m venv python/.venv
+          python/.venv/bin/pip install -q -e ./python
+
       - name: Install Playwright
         working-directory: tests/e2e
         run: |

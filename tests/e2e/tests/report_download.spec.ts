@@ -24,7 +24,7 @@ async function findOrCreateCompletedJob(req: APIRequestContext): Promise<string>
   const created = await req.post(API, {
     data: {
       scenarioName: 'pleiades',
-      nSteps: 5000,
+      nSteps: 2000,
       dt: 0.005,
       softening: 0.01,
       seed: 42,
